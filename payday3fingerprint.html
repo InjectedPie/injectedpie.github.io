@@ -1,14 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Payday 3 Fingerprint Combinations Calculator</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payday 3 Fingerprint Combination Calc</title>
 </head>
 <body>
-    <h1>Payday 3 Fingerprint Combinations Calculator</h1>
-    <p>Type the fingerprints (e.g. 257 or 2480):</p>
-    <input type="text" id="fingerprintsInput">
-    <button onclick="calculateCombinations()">Calculate Combinations</button>
-    <div id="output"></div>
+    <div class="container mt-5">
+        <h1 class="display-4">Payday 3 Fingerprint Combination Calc</h1>
+        <p>Type the fingerprints (e.g. 257 or 2480):</p>
+        <div class="input-group mb-3">
+            <input type="text" id="fingerprintsInput" class="form-control">
+            <button class="btn btn-primary" onclick="calculateCombinations()">Calculate Combinations</button>
+        </div>
+        <div id="output" class="mt-4"></div>
+    </div>
 
     <script>
         function calculateCombinations() {
@@ -29,20 +35,35 @@
             const filtered = combinations.filter(c => new Set(c).size === fingerprints.length);
             filtered.sort((a, b) => a[0] - b[0]);
             
-            let sectionCount = 0;
-            let firstNumber = -1;
-            let outputHtml = "";
+            let currentStartNumber = -1;
+            let outputHtml = `<table class="table table-bordered"><thead><tr><th>1st</th><th>Result</th><th>Checked?</th></tr></thead><tbody>`;
 
             filtered.forEach((uniqueResult, i) => {
-                if (uniqueResult[0] !== firstNumber) {
-                    firstNumber = uniqueResult[0];
-                    sectionCount++;
-                    outputHtml += `<h2>--- section ${sectionCount} ---</h2>`;
+                if (uniqueResult[0] !== currentStartNumber) {
+                    if (currentStartNumber !== -1) {
+                        // Add a blank row between segments
+                        outputHtml += `<tr><td></td><td></td><td></td></tr>`;
+                    }
+                    currentStartNumber = uniqueResult[0];
+                    outputHtml += `<tr><td>${currentStartNumber}</td><td>${uniqueResult.join("\t")}</td><td><input type="checkbox" class="rowCheckbox" onclick="checkRow(${i})"></td></tr>`;
+                } else {
+                    outputHtml += `<tr><td></td><td>${uniqueResult.join("\t")}</td><td><input type="checkbox" class="rowCheckbox" onclick="checkRow(${i})"></td></tr>`;
                 }
-                outputHtml += `<p>${i + 1}:\t${uniqueResult.join("\t")}</p>`;
             });
 
+            outputHtml += `</tbody></table>`;
             document.getElementById("output").innerHTML = outputHtml;
+        }
+
+        function checkRow(index) {
+            const checkboxes = document.getElementsByClassName("rowCheckbox");
+            const checkedRows = [];
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    checkedRows.push(i);
+                }
+            }
+            console.log("Checked rows:", checkedRows);
         }
     </script>
 </body>
