@@ -1,49 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Payday 3 Fingerprint Combinations</title>
+    <title>nope.avi</title>
 </head>
 <body>
-    <h1>Fingerprint Combinations</h1>
-    <p>Type the fingerprints (e.g. 257 or 2480):</p>
-    <input type="text" id="fingerprintsInput">
-    <button onclick="calculateCombinations()">Calculate Combinations</button>
-    <div id="output"></div>
-
-    <script>
-        function calculateCombinations() {
-            const fingerprintsInput = document.getElementById("fingerprintsInput").value;
-            const fingerprints = Array.from(fingerprintsInput, Number);
-            
-            const cartesian = (a, b) => [].concat(...a.map(a => b.map(b => [].concat(a, b))));
-            const cartesianProduct = (a, n) => {
-                let result = a;
-                for (let i = 1; i < n; i++) {
-                    result = cartesian(result, a);
-                }
-                return result;
-            };
-            
-            const combinations = cartesianProduct(fingerprints, 4);
-            
-            const filtered = combinations.filter(c => new Set(c).size === fingerprints.length);
-            filtered.sort((a, b) => a[0] - b[0]);
-            
-            let sectionCount = 0;
-            let firstNumber = -1;
-            let outputHtml = "";
-
-            filtered.forEach((uniqueResult, i) => {
-                if (uniqueResult[0] !== firstNumber) {
-                    firstNumber = uniqueResult[0];
-                    sectionCount++;
-                    outputHtml += `<h2>--- section ${sectionCount} ---</h2>`;
-                }
-                outputHtml += `<p>${i + 1}:\t${uniqueResult.join("\t")}</p>`;
-            });
-
-            document.getElementById("output").innerHTML = outputHtml;
-        }
-    </script>
+    <h1>nothing here (yet)</h1>
 </body>
 </html>
